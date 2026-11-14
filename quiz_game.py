@@ -39,14 +39,13 @@ def main_menu():
         choice = input("원하는 메뉴 번호를 입력하세요: ")
 
         if choice == '1':
-            # 여기서 위에서 만든 run_quiz 함수를 실행해요!
             run_quiz(questions_list)
-               elif choice == '2':
-            add_question()  # 문제 추가 함수 실행!
-        elif choice == '3':
+        elif choice == '2':
+            add_question()
+        elif choice == '3':  # 👈 if, elif 들과 세로줄을 똑같이!
             print("\n게임을 종료합니다. 다음에 또 만나요! 👋")
             break
-        else:
+        else:                # 👈 여기도 세로줄을 똑같이!
             print("\n[경고] 1, 2, 3 중에서만 골라주세요!")
 def add_question():
     print("\n--- ➕ 새로운 문제 추가 ---")

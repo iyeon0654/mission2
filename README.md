@@ -291,3 +291,34 @@ def add_question():
 💡 여기서 잠깐! (중요한 개념)
 questions_list.append(new_q): append는 리스트의 맨 뒤에 새로운 데이터를 붙이는 명령어예요. 마치 기차 뒤에 새로운 칸을 하나 더 연결하는 것과 같죠! 🚂
 
+
+## 아하, 이 에러는 파이썬에서 가장 자주 만나는 '들여쓰기(Indentation)' 문제예요! 😅
+
+사진을 자세히 보니 elif choice == '3': 부분과 그 아래 else: 부분이 앞으로 너무 많이 들어가 있거나, 줄이 맞지 않아서 발생한 에러입니다. 파이썬은 줄 맞추기에 아주 예민하거든요.
+
+🛠️ 해결 방법
+main_menu 함수 안의 if-elif-else 줄을 똑같이 맞춰줘야 합니다. 아래 그림처럼 if, elif, else가 수직으로 딱 맞아야 해요.
+
+[수정 전 (현재 상태)]
+```
+        if choice == '1':
+            run_quiz(questions_list)
+        elif choice == '2':
+            add_question()
+          elif choice == '3':  # 👈 여기가 더 들어가 있거나 줄이 안 맞아요!
+              break
+            else:              # 👈 여기도 줄이 안 맞아요!
+```
+
+[수정 후 (이렇게 맞춰주세요!)]
+```
+        if choice == '1':
+            run_quiz(questions_list)
+        elif choice == '2':
+            add_question()
+        elif choice == '3':  # 👈 if, elif 들과 세로줄을 똑같이!
+            print("\n게임을 종료합니다. 다음에 또 만나요! 👋")
+            break
+        else:                # 👈 여기도 세로줄을 똑같이!
+            print("\n[경고] 1, 2, 3 중에서만 골라주세요!")
+```
