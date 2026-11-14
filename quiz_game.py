@@ -62,3 +62,5 @@ def add_question():
 # 5. 프로그램 시작점
 if __name__ == "__main__":
     main_menu()
+
+print("test")
