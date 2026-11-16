@@ -1,15 +1,13 @@
+import json
+
 # 1. 클래스 정의 (문제의 틀)
 class Question:
     def __init__(self, text, answer):
         self.text = text
         self.answer = answer
 
-# 2. 퀴즈 문제 리스트 (미리 만들어둔 문제들)
-questions_list = [
-    Question("대한민국의 수도는?", "서울"),
-    Question("파이썬을 만든 사람은 귀도 반 ( )?", "로섬"),
-    Question("사과를 영어로 하면?", "apple")
-]
+# 2. 퀴즈 문제 리스트
+# (프로그램 맨 아래 __main__ 에서 불러올 거예요!)
 
 # 3. 퀴즈를 풀게 해주는 함수 (기능)
 def run_quiz(questions):
@@ -28,13 +26,46 @@ def run_quiz(questions):
     print(f"\n--- 퀴즈 종료! ---")
     print(f"당신의 점수: {score} / {len(questions)}")
 
+    # 4. 문제들을 파일에 저장하는 함수
+def save_questions(questions):
+    # 붕어빵(객체)들을 딕셔너리 목록으로 바꿔 담을 새 장바구니
+    data = []
+    for q in questions:
+        # 문제 하나를 {이름표: 내용} 모양으로 변신시켜요!
+        data.append({"text": q.text, "answer": q.answer})
+
+    # 'quiz_data.json' 이라는 파일을 열어서 적어요 (w = write, 쓰기)
+    with open("quiz_data.json", "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+    print("💾 문제가 성공적으로 저장되었어요!")
+
+    # 5. 파일에서 문제들을 불러오는 함수
+def load_questions():
+    try:
+        # 파일을 열어서 읽어요 (r = read, 읽기)
+        with open("quiz_data.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        # 딕셔너리들을 다시 붕어빵(Question 객체)으로 변신!
+        questions = []
+        for item in data:
+            questions.append(Question(item["text"], item["answer"]))
+        return questions
+
+    except FileNotFoundError:
+        # 저장된 파일이 없으면 빈 장바구니를 돌려줘요
+        print("📂 저장된 파일이 없어서 새로 시작해요!")
+        return []
+
 # 4. 메뉴 화면 함수
 def main_menu():
     while True:
         print("\n--- 🎮 퀴즈 게임 메뉴 ---")
         print("1. 퀴즈 풀기")
         print("2. 문제 추가하기")
-        print("3. 종료")
+        print("3. 문제 수정하기")   # 👈 새로 추가!
+        print("4. 종료")            # 👈 번호 바꿈! (3→4)
         
         choice = input("원하는 메뉴 번호를 입력하세요: ")
 
@@ -42,11 +73,13 @@ def main_menu():
             run_quiz(questions_list)
         elif choice == '2':
             add_question()
-        elif choice == '3':  # 👈 if, elif 들과 세로줄을 똑같이!
+        elif choice == '3':              # 👈 새로 추가!
+            edit_question()              # (이 함수는 곧 만들 거예요!)
+        elif choice == '4':              # 👈 종료를 4로 변경!
             print("\n게임을 종료합니다. 다음에 또 만나요! 👋")
             break
-        else:                # 👈 여기도 세로줄을 똑같이!
-            print("\n[경고] 1, 2, 3 중에서만 골라주세요!")
+        else:
+            print("\n[경고] 1, 2, 3, 4 중에서만 골라주세요!")  # 👈 숫자 추가!
 def add_question():
     print("\n--- ➕ 새로운 문제 추가 ---")
     text = input("문제 내용을 입력하세요: ")
@@ -55,9 +88,30 @@ def add_question():
     # 새로운 Question 객체를 만들어서 리스트에 추가(append)해요!
     new_q = Question(text, answer)
     questions_list.append(new_q)
-    
+    save_questions(questions_list)
     print("\n[성공] 문제가 리스트에 추가되었습니다! ✅")
+# 👇 이 아래에 새 함수를 붙여넣으세요!
+def edit_question():
+    if len(questions_list) == 0:
+        print("\n[알림] 수정할 문제가 없어요! 먼저 문제를 추가해주세요!")
+        return
+
+    print("\n--- ✏️ 문제 수정하기 ---")
+    for i in range(len(questions_list)):
+        print(f"{i + 1}. {questions_list[i].text}")      # 👈 text로 수정!
+
+    num = int(input("수정할 문제 번호를 입력하세요: "))
+
+    new_q = input("새로운 문제 내용을 입력하세요: ")
+    new_a = input("새로운 정답을 입력하세요: ")
+
+    questions_list[num - 1].text = new_q       # 👈 text로 수정!
+    questions_list[num - 1].answer = new_a
+
+    save_questions(questions_list)
+    print("[성공] 문제가 수정되었습니다! ✅")
 
 # 5. 프로그램 시작점
 if __name__ == "__main__":
+    questions_list = load_questions()# 👈 이 줄 추가! (저장된 문제 불러오기)
     main_menu()
