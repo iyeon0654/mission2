@@ -1,30 +1,38 @@
 import json
 
 # 1. 클래스 정의 (문제의 틀)
-class Question:
-    def __init__(self, text, answer):
-        self.text = text
-        self.answer = answer
+class Quiz:
+    def __init__(self, question, choices, answer):
+        self.question = question    # 문제 내용
+        self.choices = choices      # 선택지 4개 (리스트!)
+        self.answer = answer        # 정답 번호 (1~4)
 
 # 2. 퀴즈 문제 리스트
 # (프로그램 맨 아래 __main__ 에서 불러올 거예요!)
 
 # 3. 퀴즈를 풀게 해주는 함수 (기능)
-def run_quiz(questions):
+def run_quiz(quizzes):
     score = 0
-    print(f"\n총 {len(questions)}문제를 시작합니다!")
-    
-    for q in questions:
-        answer = input(f"\n{q.text} 정답 입력: ")
-        # .strip()은 혹시 모를 앞뒤 공백을 지워줘요!
-        if answer.strip() == q.answer:
+    print(f"\n총 {len(quizzes)}문제를 시작합니다!")
+
+    for q in quizzes:
+        print(f"\n{q.question}")        # 문제 보여주기
+
+        # 선택지 4개를 번호와 함께 보여줘요!
+        for i in range(len(q.choices)):
+            print(f"  {i + 1}) {q.choices[i]}")
+
+        answer = input("정답 번호를 입력하세요 (1~4): ")
+
+        # 입력한 번호와 정답 번호를 비교해요!
+        if answer.strip() == str(q.answer):
             print("정답입니다! ✨")
             score += 1
         else:
-            print(f"아쉽네요. 정답은 '{q.answer}'입니다. 😢")
-            
+            print(f"아쉽네요. 정답은 {q.answer}번 입니다. 😥")
+
     print(f"\n--- 퀴즈 종료! ---")
-    print(f"당신의 점수: {score} / {len(questions)}")
+    print(f"당신의 점수: {score} / {len(quizzes)}")
 
     # 4. 문제들을 파일에 저장하는 함수
 def save_questions(questions):
@@ -32,7 +40,7 @@ def save_questions(questions):
     data = []
     for q in questions:
         # 문제 하나를 {이름표: 내용} 모양으로 변신시켜요!
-        data.append({"text": q.text, "answer": q.answer})
+        data.append({"question": q.question, "choices": q.choices, "answer": q.answer})
 
     # 'quiz_data.json' 이라는 파일을 열어서 적어요 (w = write, 쓰기)
     with open("quiz_data.json", "w", encoding="utf-8") as f:
@@ -47,10 +55,10 @@ def load_questions():
         with open("quiz_data.json", "r", encoding="utf-8") as f:
             data = json.load(f)
 
-        # 딕셔너리들을 다시 붕어빵(Question 객체)으로 변신!
+        # 딕셔너리들을 다시 Quiz 객체로 변신!
         questions = []
         for item in data:
-            questions.append(Question(item["text"], item["answer"]))
+            questions.append(Quiz(item["question"], item["choices"], item["answer"]))
         return questions
 
     except FileNotFoundError:
@@ -81,12 +89,20 @@ def main_menu():
         else:
             print("\n[경고] 1, 2, 3, 4 중에서만 골라주세요!")  # 👈 숫자 추가!
 def add_question():
-    print("\n--- ➕ 새로운 문제 추가 ---")
-    text = input("문제 내용을 입력하세요: ")
-    answer = input("정답을 입력하세요: ")
-    
-    # 새로운 Question 객체를 만들어서 리스트에 추가(append)해요!
-    new_q = Question(text, answer)
+    print("\n--- 🆕 새로운 문제 추가 ---")
+    question = input("문제 내용을 입력하세요: ")
+
+    # 선택지 4개를 하나씩 입력받아요!
+    choices = []
+    for i in range(4):
+        choice = input(f"{i + 1}번 선택지를 입력하세요: ")
+        choices.append(choice)
+
+    # 정답 번호를 입력받아요 (1~4)
+    answer = int(input("정답 번호를 입력하세요 (1~4): "))
+
+    # 새로운 Quiz 객체를 만들어서 리스트에 추가해요!
+    new_q = Quiz(question, choices, answer)
     questions_list.append(new_q)
     save_questions(questions_list)
     print("\n[성공] 문제가 리스트에 추가되었습니다! ✅")

@@ -952,6 +952,205 @@ def edit_question():
 
 이름이 하나라도 다르면 파이썬은 "그런 거 몰라요!" 하거든요! 😆
 
+## 📋 프로젝트 진행 현황 및 개선 과제
+
+현재 프로젝트의 구조를 개선하기 위해 필요한 작업 목록입니다.
+
+| 요구사항 | 현재 상태 | 필요 조치 |
+| :--- | :---: | :--- |
+| **선택지(choices) 4개** | ❌ | 문제 + 선택지 4개 구조로 변경 |
+| **정답을 1~4 번호로 입력** | ❌ | 입력값과 정답 인덱스 비교 로직 구현 |
+| **클래스 2개 (Quiz/QuizGame)** | ❌ | 클래스 분리 및 역할 정의 |
+| **파일명 `state.json`** | ⚠️ | 파일명 통일 및 경로 확인 |
+| **최고점수(`best_score`) 저장** | ❌ | JSON 읽기/쓰기 로직 추가 |
+
+> 🔴 **핵심 과제:** 단순 텍스트 비교에서 **클래스 기반의 객체지향 구조**로 전환하여 확장성 있는 코드를 만듭니다.
+
+## 🟡 기능적으로 빠진 것들
+❌ 점수 확인 메뉴 (4번)
+❌ 잘못된 입력 처리 (abc 입력, 9 입력 등 → try/except)
+❌ Ctrl+C 안전 종료 (KeyboardInterrupt)
+❌ 파일 손상 시 처리 (try/except)
+
+## 🎯 1단계: Quiz 클래스 바꾸기
+4~7번째 줄을 찾아서 아래처럼 바꿔요! 👇
+
+지금 (이걸 지워요)
+```bash
+# 1. 클래스 정의 (문제의 틀)
+class Question:
+    def __init__(self, text, answer):
+        self.text = text
+        self.answer = answer
+```
+
+✅ 이렇게 바꿔요!
+```bash
+# 1. 클래스 정의 (문제의 틀)
+class Quiz:
+    def __init__(self, question, choices, answer):
+        self.question = question    # 문제 내용
+        self.choices = choices      # 선택지 4개 (리스트!)
+        self.answer = answer        # 정답 번호 (1~4)
+```
+
+## 📝 뭐가 바뀌었나요?
+
+| 변경 전 | 변경 후 | 변경 이유 |
+| :--- | :--- | :--- |
+| `Question` | `Quiz` | 클래스 이름 변경 |
+| `text` | `question` | 변수 이름 변경 |
+| (없음) | `choices` ✨ | 선택지 4개 기능 추가 |
+| `answer` (글자) | `answer` (숫자 1~4) | 정답 입력 방식 최적화 |
+
+## 💡 이 클래스는 어떻게 쓰이나요?
+
+예를 들어 이런 문제가 있다면요 👇
+```bash
+문제: 파이썬에서 리스트를 만들 때 쓰는 기호는?
+  1) { }
+  2) [ ]
+  3) ( )
+  4) < >
+정답: 2번
+```
+
+이걸 Quiz 클래스로 만들면 이렇게 돼요!
+```bash
+Quiz(
+    "파이썬에서 리스트를 만들 때 쓰는 기호는?",   # question
+    ["{ }", "[ ]", "( )", "< >"],                # choices (리스트 4개!)
+    2                                            # answer (정답 번호)
+)
+```
+보이시죠? 😊 선택지가 리스트로 4개 들어가고, 정답은 숫자 2예요!
+
+## 📝 핵심 변화 설명!
+
+① 선택지 보여주기 (새로 추가!) ✨
+```bash
+for i in range(len(q.choices)):
+    print(f"  {i + 1}) {q.choices[i]}")
+```
+choices는 리스트 4개니까, 하나씩 꺼내서 번호 붙여 보여줘요!
+i는 0,1,2,3 → i+1은 1,2,3,4 (사람이 보기 편하게!) 😊
+
+② 정답 비교 방법 변경!
+```bash
+if answer.strip() == str(q.answer):
+```
+q.answer는 숫자(2), input()은 글자("2")예요!
+그래서 str()로 숫자를 글자로 바꿔서 비교해요! 👍
+
+💡 실행하면 이렇게 보여요!
+```bash
+파이썬에서 리스트를 만들 때 쓰는 기호는?
+  1) { }
+  2) [ ]
+  3) ( )
+  4) < >
+정답 번호를 입력하세요 (1~4): 2
+정답입니다! ✨
+```
+
+## 🔍 확인된 사실 3가지
+파일명은 state.json이 아니라 quiz_data.json 이에요! (화면 아래 폴더에도 보이죠? 👀)
+save/load가 아직 옛날 구조 (text, answer만 저장)로 되어 있어요!
+choices가 빠져있고, Question 클래스를 쓰고 있어요! → 고쳐야 해요!
+➡️ 파일명은 quiz_data.json 그대로 가면 돼요! 😊
+
+## 🎯 3-1단계: save 함수 수정
+
+✅ 이 부분만 바꿔요!
+```bash
+# 문제 하나를 {이름표: 내용} 모양으로 변신시켜요!
+data.append({"question": q.question, "choices": q.choices, "answer": q.answer})
+```
+바뀐 점: text→question, 그리고 choices 추가! ✨
+
+## 🎯 3-2단계: load 함수 수정
+
+✅ 이 부분만 바꿔요!
+```bash
+# 딕셔너리들을 다시 Quiz 객체로 변신!
+questions = []
+for item in data:
+    questions.append(Quiz(item["question"], item["choices"], item["answer"]))
+return questions
+```
+바뀐 점: Question→Quiz, item["choices"] 추가, 순서는 question, choices, answer! 👍
+
+## 📝 왜 이렇게 바꾸나요?
+
+Quiz 클래스가 이렇게 생겼죠? 👇
+```bash
+class Quiz:
+    def __init__(self, question, choices, answer):
+```
+그래서 저장할 땐 이 3개를 다 담고, 불러올 땐 이 3개를 다시 꺼내줘야 해요! 😊
+
+| 담을 때 (save) | 꺼낼 때 (load) | 설명 |
+| :--- | :--- | :--- |
+| `q.question` | `item["question"]` | 문제 텍스트 |
+| `q.choices` | `item["choices"]` | 4지 선다 선택지 리스트 |
+| `q.answer` | `item["answer"]` | 정답 번호 (1~4) |
+짝이 딱 맞죠? 👍
+
+## 🔍 확인된 사실
+아직 옛날 구조예요! text와 answer만 받고 있어요!
+
+선택지 4개를 입력받는 부분이 없어요! → 추가해야 해요!
+
+Question(text, answer) → Quiz(...)로 바꿔야 해요!
+
+## 🎯 add_question 함수 수정
+
+✅ 함수 안쪽을 이렇게 바꿔요!
+```bash
+def add_question():
+    print("\n--- 🆕 새로운 문제 추가 ---")
+    question = input("문제 내용을 입력하세요: ")
+
+    # 선택지 4개를 하나씩 입력받아요!
+    choices = []
+    for i in range(4):
+        choice = input(f"{i + 1}번 선택지를 입력하세요: ")
+        choices.append(choice)
+
+    # 정답 번호를 입력받아요 (1~4)
+    answer = int(input("정답 번호를 입력하세요 (1~4): "))
+
+    # 새로운 Quiz 객체를 만들어서 리스트에 추가해요!
+    new_q = Quiz(question, choices, answer)
+    questions_list.append(new_q)
+    save_questions(questions_list)
+    print("\n[성공] 문제가 리스트에 추가되었습니다! ✅")
+```
+## 📝 바뀐 점 정리!
+
+코드 구현 과정에서 변경된 주요 로직과 그 이유입니다.
+
+| 바뀐 부분 | 이유 |
+| :--- | :--- |
+| `choices = []` + `for`문 | 선택지 4개를 하나씩 받기 위해 |
+| `answer = int(input(...))` | 정답을 번호(숫자)로 받기 위해 |
+| `Question` → `Quiz(question, choices, answer)` | `Quiz` 클래스 구조에 맞추기 위해 |
+
+## 🤔 for i in range(4) 가 뭐예요?
+0, 1, 2, 3 이렇게 4번 반복해요! 😊
+
+i가 0일 때 → 1번 선택지를 입력하세요:
+
+i가 1일 때 → 2번 선택지를 입력하세요:
+... 이렇게 4번!
+
+i + 1을 쓴 이유는 사람은 1번부터 세니까요! 👍
+
+## ⚠️ 중요 체크!
+answer에 int() 를 꼭 씌워야 해요!
+
+안 그러면 input은 **글자("2")**로 받아서, 나중에 정답 비교할 때 숫자랑 안 맞아요! 😊
+
 
 
 
