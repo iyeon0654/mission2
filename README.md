@@ -276,14 +276,13 @@ python quiz_game.py
 
 ## 7. 실행 화면
 
-| 메뉴 | 퀴즈 풀기 | 
-| ----- | ----- | 
-| !\[menu\](docs/screenshots/menu.png)  | !\[play\](docs/screenshots/play.png) | 
+| 메뉴 | 퀴즈 풀기 |
+| :---: | :---: |
+| ![menu](docs/screenshots/menu.png) | ![play](docs/screenshots/play.png) |
 
-| 퀴즈 추가 | 점수 확인 | 
-| ----- | ----- | 
-|  !\[add\](docs/screenshots/add_quiz.png) | !\[score\](docs/screenshots/score.png) | 
-
+| 퀴즈 추가 | 점수 확인 |
+| :---: | :---: |
+| ![add](docs/screenshots/add_quiz.png) | ![score](docs/screenshots/score.png) |
 ### 퀴즈 목록 실행 화면
 
 ## 8. git 개발 환경
