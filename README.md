@@ -208,3 +208,33 @@ python quiz_game.py
 | 힌트 기능 | 미구현 |
 | 퀴즈 삭제 기능 | 미구현 |
 | 점수 기록 히스토리 | 미구현 |
+
+## 13. 개발 환경과 제약 사항 준수 현황
+
+### 개발 환경 조건
+
+| 조건 | 충족 여부 |
+| :--- | :--- |
+| Python 3.10 이상 사용 | 충족 (Python 3.14.10) |
+| 외부 라이브러리 없이 기본 문법만 사용 (표준 라이브러리 사용 가능) | 충족 (`json`, `os`만 사용) |
+
+### 제약 사항
+
+| 구분 | 제약 사항 | 준수 내용 |
+| :--- | :--- | :--- |
+| 데이터 저장 규칙 | 데이터 파일은 프로젝트 루트의 `state.json` | `quiz_game.py`와 같은 폴더의 `state.json`을 사용 (`STATE_FILE`) |
+| 데이터 저장 규칙 | 파일 인코딩은 UTF-8 | 저장·불러오기 모두 `encoding="utf-8"`로 처리 |
+| 코드 구조 | 모든 코드를 한 함수에 작성하지 않고 기능별로 함수 분리 | 입력 검증(`read_int`, `read_text`), 기본 데이터(`make_default_quizzes`), 게임 기능(`play_quiz`, `add_quiz`, `show_quiz_list`, `show_best_score`, `edit_quiz`), 저장(`save_state`, `load_state`)으로 분리 |
+| 코드 구조 | 최소 2개 이상의 클래스로 역할 분리 | `Quiz`(퀴즈 한 문제), `QuizGame`(게임 전체 관리) |
+| Git 워크플로우 | 최소 10개 이상의 의미 있는 커밋 | 기능·문서 단위로 커밋 (기록은 `docs/screenshots/git_log.png` 참고) |
+| Git 워크플로우 | 작업 내용이 드러나는 커밋 메시지 | `Feat:`, `Refactor:`, `Docs:`, `Chore:` 형식으로 변경 내용을 적음 |
+| Git 워크플로우 | Git 기초 명령어 7종을 각각 한 번 이상 사용 | `init`, `add`, `commit`, `push`, `pull`, `checkout`, `clone` 모두 사용 |
+
+### 제출물
+
+| 제출물 | 위치 |
+| :--- | :--- |
+| GitHub 저장소 URL | https://github.com/iyeon0654/mission2 |
+| 개발 환경 설정 스크린샷 | `docs/screenshots/dev_env.png` |
+| 프로그램 실행 결과 스크린샷 | `docs/screenshots/add_quiz.png`(추가), `list.png`(목록), `play.png`(플레이), `score.png`(점수) |
+| `git log --oneline --graph` 결과 스크린샷 | `docs/screenshots/git_log.png` |
