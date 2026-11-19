@@ -238,3 +238,21 @@ python quiz_game.py
 | 개발 환경 설정 스크린샷 | `docs/screenshots/dev_env.png` |
 | 프로그램 실행 결과 스크린샷 | `docs/screenshots/add_quiz.png`(추가), `list.png`(목록), `play.png`(플레이), `score.png`(점수) |
 | `git log --oneline --graph` 결과 스크린샷 | `docs/screenshots/git_log.png` |
+
+## 14. Git 명령어 사용 기록
+
+| 명령어 | 사용 기록 |
+| :--- | :--- |
+| `init` | 저장소 설정 때 실행 (이미 Git 저장소여서 `Reinitialized existing Git repository` 안내가 나옴) |
+| `add`, `commit` | 커밋 목록으로 확인 (`git_log.png`) |
+| `push` | `origin/main`이 최신 커밋을 가리키는 것으로 확인 (`git_log.png`) |
+| `checkout`, `merge`, `pull` | `git reflog` 기록으로 확인 (`git_commands.png`) |
+| `clone` | 복제한 폴더의 `git reflog` 기록으로 확인 (`git_clone.png`) |
+
+**`checkout`, `merge`, `pull` 기록**
+
+![git_commands](docs/screenshots/git_commands.png)
+
+**`clone` 기록**
+
+![git_clone](docs/screenshots/git_clone.png)
