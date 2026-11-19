@@ -109,7 +109,7 @@ python quiz_game.py
 | :---: | :---: |
 | ![add](docs/screenshots/add_quiz.png) | ![score](docs/screenshots/score.png) |
 
-## 8. 개발 환경
+## 8. git 개발 환경
 
 - 에디터: VSCode
 - Python 3.14.10
