@@ -109,7 +109,15 @@ python quiz_game.py
 | :---: | :---: |
 | ![add](docs/screenshots/add_quiz.png) | ![score](docs/screenshots/score.png) |
 
-## 8. 사용한 Git 명령어
+## 8. 개발 환경
+
+- 에디터: VSCode
+- Python 3.14.10
+- Git 2.56.0
+
+![dev_env](docs/screenshots/dev_env.png)
+
+## 9. 사용한 Git 명령어
 
 `init` · `add` · `commit` · `push` · `pull` · `checkout` · `merge` · `clone`
 
