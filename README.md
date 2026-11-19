@@ -280,10 +280,13 @@ python quiz_game.py
 | :---: | :---: |
 | ![menu](docs/screenshots/menu.png) | ![play](docs/screenshots/play.png) |
 
-| 퀴즈 추가 | 점수 확인 |
+| 퀴즈 추가 | 퀴즈 목록 |
 | :---: | :---: |
-| ![add](docs/screenshots/add_quiz.png) | ![score](docs/screenshots/score.png) |
-### 퀴즈 목록 실행 화면
+| ![add](docs/screenshots/add_quiz.png) | ![list](docs/screenshots/list.png) |
+
+| 점수 확인 | |
+| :---: | :---: |
+| ![score](docs/screenshots/score.png) | |
 
 ## 8. git 개발 환경
 
@@ -430,19 +433,25 @@ python quiz_game.py
 
 ## 14. Git 명령어 사용 기록
 
-| 명령어 | 사용 기록 | 
-| ----- | ----- | 
-| `init` | 저장소 설정 때 실행 (이미 Git 저장소여서 `Reinitialized existing Git repository` 안내가 나옴) | 
-| `add`, `commit` | 커밋 목록으로 확인 (`git_log.png`) | 
-| `push` | `origin/main`이 최신 커밋을 가리키는 것으로 확인 (`git_log.png`) | 
-| `checkout`, `merge`, `pull` | `git reflog` 기록으로 확인 (`git_commands.png`) | 
-| `clone` | 복제한 폴더의 `git reflog` 기록으로 확인 (`git_clone.png`) | 
+| 명령어 | 사용 기록 |
+| :--- | :--- |
+| `init` | 저장소 설정 때 실행 (이미 Git 저장소여서 `Reinitialized existing Git repository` 안내가 나옴) |
+| `add`, `commit` | 커밋 목록으로 확인 (`git_log.png`) |
+| `push` | `origin/main`이 최신 커밋을 가리키는 것으로 확인 (`git_log.png`) |
+| `checkout`, `merge`, `pull` | `git reflog` 기록으로 확인 (`git_commands.png`) |
+| `clone` | 복제한 폴더의 `git reflog` 기록으로 확인 (`git_clone.png`) |
 
-**`git log --oneline --graph` (커밋 및 브랜치 병합 이력)**
+### `git log --oneline --graph` (커밋 및 브랜치 병합 이력)
 
-**`checkout`, `merge`, `pull` 기록**
+![git_log](docs/screenshots/git_log.png)
 
-**`clone` 기록**
+### `checkout`, `merge`, `pull` 기록
+
+![git_commands](docs/screenshots/git_commands.png)
+
+### `clone` 기록
+
+![git_clone](docs/screenshots/git_clone.png)
 
 ## 15. 데이터 확장·백업 복구·변경 영향 범위 설계
 
